@@ -40,7 +40,7 @@ export default class CreateOrdersTable1614655511715
     await queryRunner.createForeignKey(
       'orders',
       new TableForeignKey({
-        name: 'OrdersForeignKey',
+        name: 'OrdersForeignKey', // OrdersCustomer deveria ser.
         columnNames: ['customer_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'customers',
@@ -52,6 +52,7 @@ export default class CreateOrdersTable1614655511715
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('customers', 'OrdersForeignKey');
+    await queryRunner.dropColumn('orders', 'customer_id');
     await queryRunner.dropTable('orders');
   }
 }

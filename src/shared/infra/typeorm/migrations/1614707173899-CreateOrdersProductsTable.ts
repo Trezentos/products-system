@@ -59,6 +59,7 @@ export default class CreateOrdersProductsTable1614707173899
         columnNames: ['order_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'orders',
+        onDelete: 'SET NULL',
       }),
     );
 
@@ -69,13 +70,18 @@ export default class CreateOrdersProductsTable1614707173899
         columnNames: ['product_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'products',
+        onDelete: 'SET NULL',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('orders_products', 'ProductForeignKey');
+    await queryRunner.dropColumn('orders_products', 'product_id');
+
     await queryRunner.dropForeignKey('orders_products', 'OrderForeignKey');
+    await queryRunner.dropColumn('orders_products', 'order_id');
+
     await queryRunner.dropTable('orders_products');
   }
 }

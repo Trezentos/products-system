@@ -16,8 +16,16 @@ class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  // VÁRIAS ORDERS TEM UM CUSTOMER
+  @ManyToOne(() => Customer)
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
+  // VÁRIAS ORDERS PODEM TER VÁRIOS PRODUTOS
+  // 10 pianos podem está em 10 pedidos diferente
+  @OneToMany(() => OrdersProducts, orders_products => orders_products.order, {
+    cascade: true,
+  })
   order_products: OrdersProducts[];
 
   @CreateDateColumn()
